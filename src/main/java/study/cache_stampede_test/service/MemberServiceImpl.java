@@ -1,4 +1,4 @@
-package study.cache_stampede_test;
+package study.cache_stampede_test.service;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;

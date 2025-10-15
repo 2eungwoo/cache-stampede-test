@@ -1,4 +1,4 @@
-package study.cache_stampede_test;
+package study.cache_stampede_test.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

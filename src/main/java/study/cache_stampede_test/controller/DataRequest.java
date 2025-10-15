@@ -1,4 +1,4 @@
-package study.cache_stampede_test;
+package study.cache_stampede_test.controller;
 
 public class DataRequest {
     private String key;

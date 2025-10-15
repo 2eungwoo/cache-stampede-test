@@ -1,4 +1,4 @@
-package study.cache_stampede_test;
+package study.cache_stampede_test.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

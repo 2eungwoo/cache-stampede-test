@@ -1,4 +1,4 @@
-package study.cache_stampede_test;
+package study.cache_stampede_test.service;
 
 public interface MemberService {
     String getData(String key);
