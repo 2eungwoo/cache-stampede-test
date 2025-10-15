@@ -1,0 +1,52 @@
+version: '3.9'
+services:
+  redis:
+    image: redis:7.2
+    container_name: redis-for-stampede
+    ports:
+      - "6500:6379"
+    command: ["redis-server", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - my-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-for-stampede
+    ports:
+      - "7777:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: cache_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    networks:
+      - my-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+#  app:
+#    build: .
+#    container_name: cache-stampede-app
+#    ports:
+#      - "8080:8080"
+#    depends_on:
+#      redis:
+#        condition: service_healthy
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=default
+#      - SPRING_DATA_REDIS_HOST=redis
+#      - SPRING_DATA_REDIS_PORT=6379
+#    networks:
+#      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
