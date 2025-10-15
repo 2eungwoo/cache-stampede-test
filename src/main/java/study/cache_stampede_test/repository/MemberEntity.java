@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +28,7 @@ public class MemberEntity {
     @Column(name = "age")
     private String age;
 
-
+    @Builder
     public MemberEntity(String name, String age) {
         this.name = name;
         this.age = age;

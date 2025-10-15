@@ -1,8 +1,13 @@
 package study.cache_stampede_test.service;
 
+import study.cache_stampede_test.controller.MemberResponse;
 import study.cache_stampede_test.controller.MemberSaveRequest;
-import study.cache_stampede_test.repository.MemberEntity;
+
+import java.util.List;
 
 public interface MemberService {
-    MemberEntity save(MemberSaveRequest request);
+
+    MemberResponse saveMember(MemberSaveRequest request);
+
+    List<MemberResponse> findAllMembers();
 }

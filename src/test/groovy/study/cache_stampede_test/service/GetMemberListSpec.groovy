@@ -4,14 +4,13 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import spock.lang.Specification
-import study.cache_stampede_test.controller.MemberSaveRequest
 import study.cache_stampede_test.repository.MemberEntity
 import study.cache_stampede_test.repository.MemberRepository
+import study.cache_stampede_test.controller.MemberResponse
 
-import static org.mockito.ArgumentMatchers.any
 import static org.mockito.Mockito.when
 
-class MemberServiceSpec extends Specification {
+class GetMemberListSpec extends Specification {
 
     @Mock
     MemberRepository memberRepository
@@ -23,19 +22,20 @@ class MemberServiceSpec extends Specification {
         MockitoAnnotations.openMocks(this)
     }
 
-    def "회원 저장 로직 - 정상 저장"() {
+    def "회원 목록 조회 - 정상 반환"() {
         given:
-        def request = new MemberSaveRequest("john", "20")
-        def savedMember = new MemberEntity("john", "20")
-
-        when(memberRepository.save(any(MemberEntity))).thenReturn(savedMember)
+        def members = [
+                new MemberEntity("a", "20"),
+                new MemberEntity("b", "25")
+        ]
+        when(memberRepository.findAll()).thenReturn(members)
 
         when:
-        def saved = memberService.save(request)
+        def result = memberService.findAllMembers()
 
         then:
-        saved != null
-        saved.name == "john"
-        saved.age == "20"
+        result.size() == 2
+        result[0].name() == "a"
+        result[1].age() == "25"
     }
 }
