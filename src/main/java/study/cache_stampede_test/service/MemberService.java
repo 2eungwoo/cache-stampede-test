@@ -1,5 +1,8 @@
 package study.cache_stampede_test.service;
 
-public interface MemberService {
+import study.cache_stampede_test.controller.MemberSaveRequest;
+import study.cache_stampede_test.repository.MemberEntity;
 
+public interface MemberService {
+    MemberEntity save(MemberSaveRequest request);
 }

@@ -23,6 +23,8 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'com.mysql:mysql-connector-j:8.0.33'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
