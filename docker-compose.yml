@@ -14,6 +14,7 @@ services:
     networks:
       - my-network
 
+  # docker exec -it mysql-for-stampede mysql -uuser -ppassword cache_db
   mysql:
     image: mysql:8.0
     container_name: mysql-for-stampede
