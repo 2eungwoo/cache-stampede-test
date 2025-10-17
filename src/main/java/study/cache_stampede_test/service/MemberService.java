@@ -10,4 +10,6 @@ public interface MemberService {
     MemberResponse saveMember(MemberSaveRequest request);
 
     List<MemberResponse> findAllMembers();
+
+    List<MemberResponse> findAllMembersV2();
 }

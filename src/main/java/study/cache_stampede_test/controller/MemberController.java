@@ -29,4 +29,10 @@ public class MemberController {
         List<MemberResponse> members = memberService.findAllMembers();
         return ResponseEntity.ok(members);
     }
+
+    @GetMapping("/v2")
+    public ResponseEntity<List<MemberResponse>> getMembersV2() {
+        List<MemberResponse> members = memberService.findAllMembersV2();
+        return ResponseEntity.ok(members);
+    }
 }
