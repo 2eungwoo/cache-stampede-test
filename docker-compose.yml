@@ -14,7 +14,6 @@ services:
     networks:
       - my-network
 
-  # docker exec -it mysql-for-stampede mysql -uuser -ppassword cache_db
   mysql:
     image: mysql:8.0
     container_name: mysql-for-stampede
@@ -30,20 +29,34 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-#  app:
-#    build: .
-#    container_name: cache-stampede-app
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      redis:
-#        condition: service_healthy
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=default
-#      - SPRING_DATA_REDIS_HOST=redis
-#      - SPRING_DATA_REDIS_PORT=6379
-#    networks:
-#      - my-network
+  prometheus:
+    image: prom/prometheus:v2.47.2
+    container_name: prometheus-for-stampede
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - my-network
+
+  grafana:
+    image: grafana/grafana:10.1.5
+    container_name: grafana-for-stampede
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - my-network
+
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.55.0
+    container_name: redis-exporter-for-stampede
+    depends_on:
+      - redis
+    command: ["--redis.addr=redis://redis:6379"]
+    networks:
+      - my-network
 
 networks:
   my-network:

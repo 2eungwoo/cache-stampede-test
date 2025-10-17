@@ -30,6 +30,16 @@ logging:
     root: INFO
     study.cache_stampede_test: DEBUG
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    prometheus:
+      enabled: true
+
 redisson:
     address: redis://localhost:6500
     connectionPoolSize: 16
