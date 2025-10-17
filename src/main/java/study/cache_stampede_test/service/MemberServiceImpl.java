@@ -37,7 +37,7 @@ public class MemberServiceImpl implements MemberService {
             .build());
 
         memberCacheService.deleteMembers();
-        log.info("캐시가 무효화되었음");
+        log.info("[v1] 캐시 무효화");
 
         return MemberResponse.from(saved);
     }

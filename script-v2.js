@@ -8,6 +8,6 @@ export const options = {
 
 export default function () {
   const res = http.get('http://localhost:8080/api/members/v2');
-  check(res, { 'status was 200': (r) => r.status == 200 });
+  check(res, { 'status was 200': (r) => r.status === 200 });
   sleep(1);
 }
