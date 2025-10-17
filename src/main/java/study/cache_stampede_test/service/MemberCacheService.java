@@ -20,7 +20,7 @@ public class MemberCacheService {
     }
 
     public void setMembers(List<MemberResponse> members) {
-        redisTemplate.opsForValue().set(MEMBER_CACHE_KEY, members, 3, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(MEMBER_CACHE_KEY, members, 20, TimeUnit.SECONDS);
     }
 
     public void deleteMembers() {

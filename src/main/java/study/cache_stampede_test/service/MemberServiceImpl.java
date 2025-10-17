@@ -1,6 +1,5 @@
 package study.cache_stampede_test.service;
 
-import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -25,7 +24,6 @@ public class MemberServiceImpl implements MemberService {
     private static final String LOCK_KEY = "MEMBER_LIST_LOCK";
     private final MemberRepository memberRepository;
     private final MemberCacheService memberCacheService;
-    private final MeterRegistry meterRegistry;
     private final RedissonClient redissonClient;
 
     @Override
@@ -48,19 +46,15 @@ public class MemberServiceImpl implements MemberService {
         List<MemberResponse> cachedMembers = memberCacheService.getMembers();
         if (cachedMembers != null) {
             log.info("[v1] 캐시 데이터 조회");
-            meterRegistry.counter("cache.gets", "name", "members", "result", "hit").increment();
             return cachedMembers;
         }
 
         log.info("[v1] DB 데이터 조회");
-        meterRegistry.counter("cache.gets", "name", "members", "result", "miss").increment();
-
         List<MemberResponse> membersFromDb = memberRepository.findAll().stream()
             .map(MemberResponse::from)
             .collect(Collectors.toList());
 
         memberCacheService.setMembers(membersFromDb);
-        meterRegistry.counter("cache.puts", "name", "members").increment();
         log.info("[v1] 캐시 데이터 저장");
 
         return membersFromDb;
@@ -71,7 +65,6 @@ public class MemberServiceImpl implements MemberService {
         List<MemberResponse> cachedMembers = memberCacheService.getMembers();
         if (cachedMembers != null) {
             log.info("[v2] 캐시 데이터 조회");
-            meterRegistry.counter("cache.gets", "name", "members.v2", "result", "hit").increment();
             return cachedMembers;
         }
 
@@ -88,18 +81,15 @@ public class MemberServiceImpl implements MemberService {
             cachedMembers = memberCacheService.getMembers();
             if (cachedMembers != null) {
                 log.info("[v2] 캐시 데이터 조회");
-                meterRegistry.counter("cache.gets", "name", "members.v2", "result", "hit").increment();
                 return cachedMembers;
             }
 
             log.info("[v2] DB 데이터 조회");
-            meterRegistry.counter("cache.gets", "name", "members.v2", "result", "miss").increment();
             List<MemberResponse> membersFromDb = memberRepository.findAll().stream()
                 .map(MemberResponse::from)
                 .collect(Collectors.toList());
 
             memberCacheService.setMembers(membersFromDb);
-            meterRegistry.counter("cache.puts", "name", "members.v2").increment();
             log.info("[v2] 캐시 데이터 저장");
             return membersFromDb;
 
